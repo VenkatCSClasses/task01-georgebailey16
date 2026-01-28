@@ -30,15 +30,20 @@ class BankAccountTest {
     - if there is text between "@" and "."
     - if there is more than one "@"
     - if there are spaces
-    - if the length of the email is at least 5 characters
     - if the email contains special characters
      */
     @Test
     void isEmailValidTest(){
         assertTrue(BankAccount.isEmailValid( "a@b.com"));   // valid email address
         assertFalse( BankAccount.isEmailValid(""));         // empty string
-
-        
+        assertFalse( BankAccount.isEmailValid("a@bcom"));    // missing
+        assertFalse( BankAccount.isEmailValid("@b.com"));    // missing text before "@"
+        assertFalse( BankAccount.isEmailValid("a@.com"));    // missing text between "@" and "."
+        assertFalse( BankAccount.isEmailValid("a@b."));      // missing text after "."
+        assertFalse( BankAccount.isEmailValid("a@@b.com"));  // more than one "@"
+        assertFalse( BankAccount.isEmailValid("a b@c.com")); // space in email
+        assertTrue(BankAccount.isEmailValid("a.b@c.com"));   // valid email with special characters
+        assertFalse(BankAccount.isEmailValid("a.b@c"));      // missing "." after "@"
     }
 
     @Test
