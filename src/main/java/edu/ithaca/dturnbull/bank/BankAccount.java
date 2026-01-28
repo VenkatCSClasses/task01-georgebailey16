@@ -47,9 +47,11 @@ public class BankAccount {
             }
         }
         if (email.length() >= 6){
-            if (email.indexOf('@') >= 2){
-                if (email.indexOf('.') == -2 || email.indexOf('.') == -3){
-                    return true;
+            if (email.indexOf('@') >= 1){
+                if ((email.charAt(email.length() - 3) == '.') || (email.charAt(email.length() - 4) == '.')){
+                    if ((email.charAt(email.length() - 2) != '.') || (email.charAt(email.length() - 1) != '.')){
+                        return true;
+                    }
                 }
             }
         }
