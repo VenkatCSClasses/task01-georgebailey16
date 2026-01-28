@@ -22,6 +22,17 @@ class BankAccountTest {
         assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(300));
     }
 
+    /*
+    Test for:
+    - if "." exists
+    - if there is text before the "@"
+    - if there is text after the "." (After the @ cuz there can be multiple .s)
+    - if there is text between "@" and "."
+    - if there is more than one "@"
+    - if there are spaces
+    - if the length of the email is at least 5 characters
+    - if the email contains special characters
+     */
     @Test
     void isEmailValidTest(){
         assertTrue(BankAccount.isEmailValid( "a@b.com"));   // valid email address
