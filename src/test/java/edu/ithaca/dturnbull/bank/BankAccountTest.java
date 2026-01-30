@@ -26,7 +26,8 @@ class BankAccountTest {
     void isEmailValidTest(){
         assertTrue(BankAccount.isEmailValid( "a@b.com"));   // valid email address
         assertFalse( BankAccount.isEmailValid(""));         // empty string
-        assertFalse( BankAccount.isEmailValid("a@bcom"));    // missing
+        assertFalse( BankAccount.isEmailValid("a@bcom"));    // missing "."
+        assertFalse( BankAccount.isEmailValid("name.com"));    // missing "@"
         assertFalse( BankAccount.isEmailValid("@b.com"));    // missing text before "@"
         assertFalse( BankAccount.isEmailValid("a@.com"));    // missing text between "@" and "."
         assertFalse( BankAccount.isEmailValid("a@b."));      // missing text after "."
