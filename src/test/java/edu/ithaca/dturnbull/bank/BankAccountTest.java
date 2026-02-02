@@ -7,10 +7,23 @@ import static org.junit.jupiter.api.Assertions.*;
 class BankAccountTest {
 
     @Test
-    void getBalanceTest() {
+    void getBalanceTest() throws InsufficientFundsException {
         BankAccount bankAccount = new BankAccount("a@b.com", 200);
-
-        assertEquals(200, bankAccount.getBalance(), 0.001);
+        assertEquals(200, bankAccount.getBalance(), 0.001); // class: typical balance
+        bankAccount.withdraw(1);
+        assertEquals(199, bankAccount.getBalance(), 0.001); // class: after withdraw -- lower boundary
+        bankAccount.withdraw(100);
+        assertEquals(99, bankAccount.getBalance(), 0.001); // class: after withdraw -- middle
+        bankAccount.withdraw(99);
+        assertEquals(0, bankAccount.getBalance(), 0.001); // class: after withdraw -- upper boundary
+       
+        BankAccount bankAccount2 = new BankAccount("john@smith.com", 500);
+        assertThrows(InsufficientFundsException.class, () -> bankAccount2.withdraw(-300));
+        assertEquals(500, bankAccount2.getBalance(), 0.001); // class: after invalid withdraw -- below lower boundary
+        assertThrows(InsufficientFundsException.class, () -> bankAccount2.withdraw(0));
+        assertEquals(500, bankAccount2.getBalance(), 0.001); // class: after invalid withdraw -- middle
+        assertThrows(InsufficientFundsException.class, () -> bankAccount2.withdraw(600));
+        assertEquals(500, bankAccount2.getBalance(), 0.001); // class: after invalid withdraw -- above upper boundary
     }
 
     @Test
@@ -18,20 +31,23 @@ class BankAccountTest {
         BankAccount bankAccount = new BankAccount("a@b.com", 200);
         bankAccount.withdraw(100);
         assertEquals(100, bankAccount.getBalance(), 0.001); //class: valid withdraw
+       
         BankAccount bankAccount2 = new BankAccount("c@d.com", 200);
         bankAccount2.withdraw(0.01);
         assertEquals(199.99, bankAccount2.getBalance(), 0.001); //class: lower boundary withdraw
+        
         BankAccount bankAccount3 = new BankAccount("e@f.com", 200);
         bankAccount3.withdraw(199.99);
         assertEquals(0.01, bankAccount3.getBalance(), 0.001); //class: upper boundary withdraw
         assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(300)); //class: overdraw -- above upper boundary
         assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(-.01)); //class: negative withdraw -- below lower boundary
+        
         BankAccount bankAccount4 = new BankAccount("g@h.com", 100);
         assertThrows(InsufficientFundsException.class, () -> bankAccount4.withdraw(0.0000000000000001)); //class: invalid small withdraw -- lower invalid boundary
         assertThrows(InsufficientFundsException.class, () -> bankAccount4.withdraw(0.001)); //class: invalid small withdraw -- upper invalid boundary
         assertThrows(InsufficientFundsException.class, () -> bankAccount4.withdraw(0)); //class: non-negative invalid withdraw -- lower invalid boundary
+        // 0 throws an error so meaningless withdraws can't clog up withdrawal logs
         assertThrows(InsufficientFundsException.class, () -> bankAccount4.withdraw(100.01)); //class: non-negative invalid withdraw -- upper invalid boundary
-
 
     }
 
