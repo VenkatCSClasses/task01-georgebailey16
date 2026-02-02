@@ -25,18 +25,29 @@ class BankAccountTest {
     @Test
     void isEmailValidTest(){
         //Valid email cases
-        assertTrue(BankAccount.isEmailValid( "a@b.com"));   // valid email address //class: valid
-        assertTrue(BankAccount.isEmailValid("a.b@c.com"));   // valid email with special characters
+        assertTrue(BankAccount.isEmailValid( "a@b.com"));   // class: valid email -- lower edge case
+        assertTrue(BankAccount.isEmailValid("john.doe@example.com")); // class: valid email -- middle
+        assertTrue(BankAccount.isEmailValid("first.middle.last@example.co.uk")); // class: valid email -- upper edge case
+        assertTrue(BankAccount.isEmailValid("a.b@c.com"));   // class: valid -- special characters
+        assertTrue(BankAccount.isEmailValid("u@x.co")); // class: valid domain -- lower edge case
+        assertTrue(BankAccount.isEmailValid("aaa@bbb.com")); // class: valid domain -- middle
+        assertTrue(BankAccount.isEmailValid("xyz@abc.co.uk")); // class: valid domain -- upper edge case
         //Invalid email cases
-        assertFalse( BankAccount.isEmailValid(""));         // class: empty string //edge case
-        assertFalse( BankAccount.isEmailValid("a@bcom"));    //class: missing "." 
-        assertFalse( BankAccount.isEmailValid("name.com"));    // class: missing "@"
-        assertFalse( BankAccount.isEmailValid("a@.com"));    // class: improper domain
-        assertFalse( BankAccount.isEmailValid("a@b."));      // class: improper domain
-        assertFalse( BankAccount.isEmailValid("a.b@c"));      // class: improper domain
-        assertFalse( BankAccount.isEmailValid("@b.com"));    //class: improper prefix 
-        assertFalse( BankAccount.isEmailValid("a@@b.com"));  // class: improper prefix
-        assertFalse( BankAccount.isEmailValid("a b@c.com")); // class: special characters
+        assertFalse(BankAccount.isEmailValid(""));         // class: empty string
+        assertFalse(BankAccount.isEmailValid("@."));    // class: missing characters
+        assertFalse(BankAccount.isEmailValid(".@...."));  // class: missing characters
+        assertFalse(BankAccount.isEmailValid("name.com"));    // class: invalid "@"s -- lower edge case -- 0
+        assertFalse(BankAccount.isEmailValid("a@@b.com"));  // class: invalid "@"s -- upper edge case -- 2
+        assertFalse(BankAccount.isEmailValid("a@bcom"));    //class: improper domain 
+        assertFalse(BankAccount.isEmailValid("a@.com"));    // class: improper domain
+        assertFalse(BankAccount.isEmailValid("a@b."));      // class: improper domain
+        assertFalse(BankAccount.isEmailValid("a.b@c"));      // class: improper domain
+        assertFalse(BankAccount.isEmailValid("a@b..")); // class: improper domain
+        assertFalse(BankAccount.isEmailValid("a@b.c")); // class: improper domain -- "." is only one char from end
+        assertFalse(BankAccount.isEmailValid("@b.com"));    //class: improper prefix 
+        assertFalse(BankAccount.isEmailValid("a b@c.com")); // class: invalid-special-char
+        assertFalse(BankAccount.isEmailValid("a!@b.com")); // class: invalid-special-char
+        assertFalse(BankAccount.isEmailValid("a#@b.com")); // class: invalid-special-char
     }
 
     @Test
