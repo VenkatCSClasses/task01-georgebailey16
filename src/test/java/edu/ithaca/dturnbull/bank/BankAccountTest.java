@@ -27,6 +27,26 @@ class BankAccountTest {
     }
 
     @Test
+    void isAmountValidTest(){
+        BankAccount bankAccount = new BankAccount("a@b.com", 200);
+        assertTrue(bankAccount.isAmountValid(10.01)); // class: valid decimal -- lower boundary
+        assertTrue(bankAccount.isAmountValid(10.5)); // class: valid decimal -- middle 
+        assertTrue(bankAccount.isAmountValid(10)); // class: valid decimal -- upper boundary
+        assertTrue(bankAccount.isAmountValid(0.01)); // class: valid amount -- lower boundary
+        assertTrue(bankAccount.isAmountValid(199.99)); // class: valid amount -- middle
+        assertTrue(bankAccount.isAmountValid(10000)); // class: valid amount -- upper boundary
+        assertFalse(bankAccount.isAmountValid(-100)); // class: invalid number -- lower boundary
+        assertFalse(bankAccount.isAmountValid(-1)); // class: invalid number -- middle
+        assertFalse(bankAccount.isAmountValid(0)); // class: invalid number -- upper boundary
+        assertFalse(bankAccount.isAmountValid(0.0000000000000001)); // class: invalid amount -- lower decimal place
+        assertFalse(bankAccount.isAmountValid(0.001)); // class: invalid amount -- middle decimal place
+        assertFalse(bankAccount.isAmountValid(0.111)); // class: invalid amount -- upper decimal place
+        assertFalse(bankAccount.isAmountValid(50.0000000000000001)); // class: invalid amount -- lower decimal place
+        assertFalse(bankAccount.isAmountValid(50.001)); // class: invalid amount -- middle decimal place
+        assertFalse(bankAccount.isAmountValid(50.111)); // class: invalid amount -- upper decimal place
+    }
+
+    @Test
     void withdrawTest() throws InsufficientFundsException{
         BankAccount bankAccount = new BankAccount("a@b.com", 200);
         bankAccount.withdraw(100);
@@ -40,7 +60,7 @@ class BankAccountTest {
         bankAccount3.withdraw(199.99);
         assertEquals(0.01, bankAccount3.getBalance(), 0.001); //class: upper boundary withdraw
         assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(300)); //class: overdraw -- above upper boundary
-        assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(-.01)); //class: negative withdraw -- below lower boundary
+        assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(-0.01)); //class: negative withdraw -- below lower boundary
         
         BankAccount bankAccount4 = new BankAccount("g@h.com", 100);
         assertThrows(InsufficientFundsException.class, () -> bankAccount4.withdraw(0.0000000000000001)); //class: invalid small withdraw -- lower invalid boundary
