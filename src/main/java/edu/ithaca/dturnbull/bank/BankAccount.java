@@ -41,7 +41,8 @@ public class BankAccount {
 
 
     public static boolean isEmailValid(String email){
-        String specChars = "!#$%^&*()";
+        String specChars = "!#$%^&*() ";
+        int count = email.length() - email.replace("@", "").length();
         for (int i = 0; i < specChars.length(); i++){
             if (email.contains(String.valueOf(specChars.charAt(i)))){
                 return false;
@@ -49,9 +50,13 @@ public class BankAccount {
         }
         if (email.length() >= 6){
             if (email.indexOf('@') >= 1){
-                if ((email.charAt(email.length() - 3) == '.') || (email.charAt(email.length() - 4) == '.')){
-                    if ((email.charAt(email.length() - 2) != '.') || (email.charAt(email.length() - 1) != '.')){
-                        return true;
+                if (count == 1){
+                    if ((email.charAt(email.length() - 3) == '.') || (email.charAt(email.length() - 4) == '.')){
+                        if ((email.charAt(email.length() - 2) != '.') || (email.charAt(email.length() - 1) != '.')){
+                            if (email.charAt(email.indexOf('@')+1) != '.'){
+                                return true;
+                            }
+                        }   
                     }
                 }
             }
