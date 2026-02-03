@@ -61,12 +61,12 @@ class BankAccountTest {
         bankAccount3.withdraw(199.99);
         assertEquals(0.01, bankAccount3.getBalance(), 0.001); //class: upper boundary withdraw
         assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(300)); //class: overdraw -- above upper boundary
-        assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(-0.01)); //class: negative withdraw -- below lower boundary
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.withdraw(-0.01)); //class: negative withdraw -- below lower boundary
         
         BankAccount bankAccount4 = new BankAccount("g@h.com", 100);
-        assertThrows(InsufficientFundsException.class, () -> bankAccount4.withdraw(0.0000000000000001)); //class: invalid small withdraw -- lower invalid boundary
-        assertThrows(InsufficientFundsException.class, () -> bankAccount4.withdraw(0.001)); //class: invalid small withdraw -- upper invalid boundary
-        assertThrows(InsufficientFundsException.class, () -> bankAccount4.withdraw(0)); //class: non-negative invalid withdraw -- lower invalid boundary
+        assertThrows(IllegalArgumentException.class, () -> bankAccount4.withdraw(0.0000000000000001)); //class: invalid small withdraw -- lower invalid boundary
+        assertThrows(IllegalArgumentException.class, () -> bankAccount4.withdraw(0.001)); //class: invalid small withdraw -- upper invalid boundary
+        assertThrows(IllegalArgumentException.class, () -> bankAccount4.withdraw(0)); //class: non-negative invalid withdraw -- lower invalid boundary
         // 0 throws an error so meaningless withdraws can't clog up withdrawal logs
         assertThrows(InsufficientFundsException.class, () -> bankAccount4.withdraw(100.01)); //class: non-negative invalid withdraw -- upper invalid boundary
 
@@ -108,6 +108,20 @@ class BankAccountTest {
         assertEquals(200, bankAccount.getBalance(), 0.001);
         //check for exception thrown correctly
         assertThrows(IllegalArgumentException.class, ()-> new BankAccount("", 100));
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("name.com", 100));
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("a@@b.com", 100));
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("a@b.c", 100));
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount(" @.com", 100));
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("name@place", 100));
+        //check for invalid starting balance
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("name@place.com", -100));
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("name2@place.com", -0.01));
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("john@smith.com", 0.001));
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("email@address.com", 100.001));
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("ab@cd.com", 0.0000005));
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("jack@smith.com", -200.001));
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("maria@smith.com", 0));
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("valid@gmail.com", 1E10));
     }
 
 }

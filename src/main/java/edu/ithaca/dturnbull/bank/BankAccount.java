@@ -63,7 +63,6 @@ public class BankAccount {
         }
     }
 
-
     public static boolean isEmailValid(String email){
         String specChars = "!#$%^&*() ";
         int count = email.length() - email.replace("@", "").length();
