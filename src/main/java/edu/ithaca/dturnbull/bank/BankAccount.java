@@ -18,6 +18,30 @@ public class BankAccount {
         }
     }
 
+    /*
+     * @return true if amount is positive and has no more than two decimal places
+     */
+    public boolean isAmountValid(double amount){
+        String strAmount = Double.toString(amount);
+
+        if (amount < 0.01){
+            return false;
+        }
+        
+        if(strAmount.contains(".")){
+            String[] decimalSplit = strAmount.split("\\.");
+            if (decimalSplit[1].length() > 2){
+                return false;
+            }
+        }
+
+        if(strAmount.contains("E")){
+            return false;
+        }
+        
+        return true;
+    }
+
     public double getBalance(){
         return balance;
     }

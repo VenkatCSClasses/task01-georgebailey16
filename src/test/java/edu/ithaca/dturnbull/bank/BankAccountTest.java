@@ -38,12 +38,13 @@ class BankAccountTest {
         assertFalse(bankAccount.isAmountValid(-100)); // class: invalid number -- lower boundary
         assertFalse(bankAccount.isAmountValid(-1)); // class: invalid number -- middle
         assertFalse(bankAccount.isAmountValid(0)); // class: invalid number -- upper boundary
-        assertFalse(bankAccount.isAmountValid(0.0000000000000001)); // class: invalid amount -- lower decimal place
+        assertFalse(bankAccount.isAmountValid(0.0000001)); // class: invalid amount -- lower decimal place
         assertFalse(bankAccount.isAmountValid(0.001)); // class: invalid amount -- middle decimal place
         assertFalse(bankAccount.isAmountValid(0.111)); // class: invalid amount -- upper decimal place
-        assertFalse(bankAccount.isAmountValid(50.0000000000000001)); // class: invalid amount -- lower decimal place
+        assertFalse(bankAccount.isAmountValid(50.0000001)); // class: invalid amount -- lower decimal place
         assertFalse(bankAccount.isAmountValid(50.001)); // class: invalid amount -- middle decimal place
         assertFalse(bankAccount.isAmountValid(50.111)); // class: invalid amount -- upper decimal place
+        assertFalse(bankAccount.isAmountValid(1E10)); // class: invalid amount -- large scientific notation
     }
 
     @Test
