@@ -101,6 +101,49 @@ class BankAccountTest {
     }
 
     @Test
+    void transferTest() throws InsufficientFundsException{
+        BankAccount fromAccount = new BankAccount("a@b.com", 200);
+        BankAccount toAccount = new BankAccount("c@d.com", 100);
+        fromAccount.transfer(toAccount, 50);
+        assertEquals(150, fromAccount.getBalance(), 0.001);
+        assertEquals(150, toAccount.getBalance(), 0.001);
+        assertThrows(IllegalArgumentException.class, () -> fromAccount.transfer(toAccount, 150)); //class: insufficient funds -- exact balance
+        assertEquals(150, fromAccount.getBalance(), 0.001);
+        assertEquals(150, toAccount.getBalance(), 0.001);
+        toAccount.transfer(fromAccount, 25);
+        assertEquals(175, fromAccount.getBalance(), 0.001);
+        assertEquals(125, toAccount.getBalance(), 0.001);
+
+        BankAccount fromAccount2 = new BankAccount("e@f.com", 200);
+        BankAccount toAccount2 = new BankAccount("g@h.com", 100);
+        assertThrows(InsufficientFundsException.class, () -> fromAccount2.transfer(toAccount2, 200)); //class: insufficient funds -- lower boundary
+        assertEquals(200, fromAccount2.getBalance(), 0.001);
+        assertEquals(100, toAccount2.getBalance(), 0.001);
+        assertThrows(InsufficientFundsException.class, () -> fromAccount2.transfer(toAccount2, 1000)); //class: insufficient funds -- upper boundary
+        assertEquals(200, fromAccount2.getBalance(), 0.001);
+        assertEquals(100, toAccount2.getBalance(), 0.001);
+        assertThrows(IllegalArgumentException.class, () -> fromAccount2.transfer(toAccount2, -50)); //class: negative transfer
+        assertEquals(200, fromAccount2.getBalance(), 0.001);
+        assertEquals(100, toAccount2.getBalance(), 0.001);
+        assertThrows(IllegalArgumentException.class, () -> fromAccount2.transfer(toAccount2, 0)); //class: zero transfer
+        assertEquals(200, fromAccount2.getBalance(), 0.001);
+        assertEquals(100, toAccount2.getBalance(), 0.001);
+
+        assertThrows(IllegalArgumentException.class, () -> fromAccount2.transfer(toAccount2, 0.0000001)); //class: invalid transfer -- lower invalid boundary
+        assertEquals(200, fromAccount2.getBalance(), 0.001);
+        assertEquals(100, toAccount2.getBalance(), 0.001);
+        assertThrows(IllegalArgumentException.class, () -> fromAccount2.transfer(toAccount2, 0.001)); //class: invalid transfer -- middle
+        assertEquals(200, fromAccount2.getBalance(), 0.001);
+        assertEquals(100, toAccount2.getBalance(), 0.001);  
+        assertThrows(IllegalArgumentException.class, () -> fromAccount2.transfer(toAccount2, 0.111)); //class: invalid transfer -- upper invalid boundary
+        assertEquals(200, fromAccount2.getBalance(), 0.001);
+        assertEquals(100, toAccount2.getBalance(), 0.001);
+        assertThrows(IllegalArgumentException.class, () -> fromAccount2.transfer(toAccount2, 100.001)); //class: invalid transfer -- above upper boundary
+        assertEquals(200, fromAccount2.getBalance(), 0.001);
+        assertEquals(100, toAccount2.getBalance(), 0.001); 
+    }
+
+    @Test
     void isEmailValidTest(){
         //Valid email cases
         assertTrue(BankAccount.isEmailValid( "a@b.com"));   // class: valid email -- lower edge case
