@@ -18,9 +18,9 @@ class BankAccountTest {
         assertEquals(0, bankAccount.getBalance(), 0.001); // class: after withdraw -- upper boundary
        
         BankAccount bankAccount2 = new BankAccount("john@smith.com", 500);
-        assertThrows(InsufficientFundsException.class, () -> bankAccount2.withdraw(-300));
+        assertThrows(IllegalArgumentException.class, () -> bankAccount2.withdraw(-300));
         assertEquals(500, bankAccount2.getBalance(), 0.001); // class: after invalid withdraw -- below lower boundary
-        assertThrows(InsufficientFundsException.class, () -> bankAccount2.withdraw(0));
+        assertThrows(IllegalArgumentException.class, () -> bankAccount2.withdraw(0));
         assertEquals(500, bankAccount2.getBalance(), 0.001); // class: after invalid withdraw -- middle
         assertThrows(InsufficientFundsException.class, () -> bankAccount2.withdraw(600));
         assertEquals(500, bankAccount2.getBalance(), 0.001); // class: after invalid withdraw -- above upper boundary
