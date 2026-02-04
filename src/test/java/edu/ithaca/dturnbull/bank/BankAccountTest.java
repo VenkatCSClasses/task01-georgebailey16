@@ -28,23 +28,22 @@ class BankAccountTest {
 
     @Test
     void isAmountValidTest(){
-        BankAccount bankAccount = new BankAccount("a@b.com", 200);
-        assertTrue(bankAccount.isAmountValid(10.01)); // class: valid decimal -- lower boundary
-        assertTrue(bankAccount.isAmountValid(10.5)); // class: valid decimal -- middle 
-        assertTrue(bankAccount.isAmountValid(10)); // class: valid decimal -- upper boundary
-        assertTrue(bankAccount.isAmountValid(0.01)); // class: valid amount -- lower boundary
-        assertTrue(bankAccount.isAmountValid(199.99)); // class: valid amount -- middle
-        assertTrue(bankAccount.isAmountValid(10000)); // class: valid amount -- upper boundary
-        assertFalse(bankAccount.isAmountValid(-100)); // class: invalid number -- lower boundary
-        assertFalse(bankAccount.isAmountValid(-1)); // class: invalid number -- middle
-        assertFalse(bankAccount.isAmountValid(0)); // class: invalid number -- upper boundary
-        assertFalse(bankAccount.isAmountValid(0.0000001)); // class: invalid amount -- lower decimal place
-        assertFalse(bankAccount.isAmountValid(0.001)); // class: invalid amount -- middle decimal place
-        assertFalse(bankAccount.isAmountValid(0.111)); // class: invalid amount -- upper decimal place
-        assertFalse(bankAccount.isAmountValid(50.0000001)); // class: invalid amount -- lower decimal place
-        assertFalse(bankAccount.isAmountValid(50.001)); // class: invalid amount -- middle decimal place
-        assertFalse(bankAccount.isAmountValid(50.111)); // class: invalid amount -- upper decimal place
-        assertFalse(bankAccount.isAmountValid(1E10)); // class: invalid amount -- large scientific notation
+        assertTrue(BankAccount.isAmountValid(10.01)); // class: valid decimal -- lower boundary
+        assertTrue(BankAccount.isAmountValid(10.5)); // class: valid decimal -- middle 
+        assertTrue(BankAccount.isAmountValid(10)); // class: valid decimal -- upper boundary
+        assertTrue(BankAccount.isAmountValid(0.01)); // class: valid amount -- lower boundary
+        assertTrue(BankAccount.isAmountValid(199.99)); // class: valid amount -- middle
+        assertTrue(BankAccount.isAmountValid(10000)); // class: valid amount -- upper boundary
+        assertFalse(BankAccount.isAmountValid(-100)); // class: invalid number -- lower boundary
+        assertFalse(BankAccount.isAmountValid(-1)); // class: invalid number -- middle
+        assertFalse(BankAccount.isAmountValid(0)); // class: invalid number -- upper boundary
+        assertFalse(BankAccount.isAmountValid(0.0000001)); // class: invalid amount -- lower decimal place
+        assertFalse(BankAccount.isAmountValid(0.001)); // class: invalid amount -- middle decimal place
+        assertFalse(BankAccount.isAmountValid(0.111)); // class: invalid amount -- upper decimal place
+        assertFalse(BankAccount.isAmountValid(50.0000001)); // class: invalid amount -- lower decimal place
+        assertFalse(BankAccount.isAmountValid(50.001)); // class: invalid amount -- middle decimal place
+        assertFalse(BankAccount.isAmountValid(50.111)); // class: invalid amount -- upper decimal place
+        assertFalse(BankAccount.isAmountValid(1E10)); // class: invalid amount -- large scientific notation
     }
 
     @Test
