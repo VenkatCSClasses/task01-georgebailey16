@@ -34,6 +34,9 @@ class BankAccountTest {
         assertTrue(BankAccount.isAmountValid(0.01)); // class: valid amount -- lower boundary
         assertTrue(BankAccount.isAmountValid(199.99)); // class: valid amount -- middle
         assertTrue(BankAccount.isAmountValid(10000)); // class: valid amount -- upper boundary
+        assertTrue(BankAccount.isAmountValid(0.010)); // class: valid decimal -- lower boundary
+        assertTrue(BankAccount.isAmountValid(10.000)); // class: valid decimal -- middle
+        assertTrue(BankAccount.isAmountValid(9999.11000)); // class: valid decimal -- upper boundary
         assertFalse(BankAccount.isAmountValid(-100)); // class: invalid number -- lower boundary
         assertFalse(BankAccount.isAmountValid(-1)); // class: invalid number -- middle
         assertFalse(BankAccount.isAmountValid(0)); // class: invalid number -- upper boundary
