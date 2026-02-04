@@ -70,12 +70,20 @@ public class BankAccount {
     /**
      * @post increases the balance by amount if amount is non-negative and valid
      */
-    public void deposit (double amount) throws InsufficientFundsException{
-        ;
+    public void deposit (double amount){
+        if (!isAmountValid(amount)){
+            throw new IllegalArgumentException("Invalid deposit: Enter positive amount with no more than two decimal places.");
+        } else {
+            balance += amount;
+        }
     }
 
-    
-    
+    /**
+     * @post transfers the desired amount from one bankAccount to a second if amount is non-negative and valid
+     */
+    public void transfer (BankAccount toAccount, double amount) throws InsufficientFundsException{
+        ;
+    }
 
     public static boolean isEmailValid(String email){
         String specChars = "!#$%^&*() ";
