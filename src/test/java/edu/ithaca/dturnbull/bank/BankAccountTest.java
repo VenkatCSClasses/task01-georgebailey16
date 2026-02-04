@@ -55,6 +55,8 @@ class BankAccountTest {
         BankAccount bankAccount2 = new BankAccount("c@d.com", 200);
         bankAccount2.withdraw(0.01);
         assertEquals(199.99, bankAccount2.getBalance(), 0.001); //class: lower boundary withdraw
+        bankAccount2.withdraw(199.99);
+        assertEquals(0, bankAccount2.getBalance(), 0.001); //class: upper boundary withdraw
         
         BankAccount bankAccount3 = new BankAccount("e@f.com", 200);
         bankAccount3.withdraw(199.99);
@@ -107,16 +109,16 @@ class BankAccountTest {
         fromAccount.transfer(toAccount, 50);
         assertEquals(150, fromAccount.getBalance(), 0.001);
         assertEquals(150, toAccount.getBalance(), 0.001);
-        assertThrows(IllegalArgumentException.class, () -> fromAccount.transfer(toAccount, 150)); //class: insufficient funds -- exact balance
-        assertEquals(150, fromAccount.getBalance(), 0.001);
-        assertEquals(150, toAccount.getBalance(), 0.001);
+        fromAccount.transfer(toAccount, 150);
+        assertEquals(0, fromAccount.getBalance(), 0.001);
+        assertEquals(300, toAccount.getBalance(), 0.001);
         toAccount.transfer(fromAccount, 25);
-        assertEquals(175, fromAccount.getBalance(), 0.001);
-        assertEquals(125, toAccount.getBalance(), 0.001);
+        assertEquals(25, fromAccount.getBalance(), 0.001);
+        assertEquals(275, toAccount.getBalance(), 0.001);
 
         BankAccount fromAccount2 = new BankAccount("e@f.com", 200);
         BankAccount toAccount2 = new BankAccount("g@h.com", 100);
-        assertThrows(InsufficientFundsException.class, () -> fromAccount2.transfer(toAccount2, 200)); //class: insufficient funds -- lower boundary
+        assertThrows(InsufficientFundsException.class, () -> fromAccount2.transfer(toAccount2, 201)); //class: insufficient funds -- lower boundary
         assertEquals(200, fromAccount2.getBalance(), 0.001);
         assertEquals(100, toAccount2.getBalance(), 0.001);
         assertThrows(InsufficientFundsException.class, () -> fromAccount2.transfer(toAccount2, 1000)); //class: insufficient funds -- upper boundary

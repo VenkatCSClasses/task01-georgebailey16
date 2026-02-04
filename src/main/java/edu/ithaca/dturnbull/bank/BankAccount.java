@@ -82,7 +82,12 @@ public class BankAccount {
      * @post transfers the desired amount from one bankAccount to a second if amount is non-negative and valid
      */
     public void transfer (BankAccount toAccount, double amount) throws InsufficientFundsException{
-        ;
+        if (!isAmountValid(amount)){
+            throw new IllegalArgumentException("Invalid transfer: Enter positive amount with no more than two decimal places.");
+        } else {
+            this.withdraw(amount);
+            toAccount.deposit(amount);
+        }
     }
 
     public static boolean isEmailValid(String email){
