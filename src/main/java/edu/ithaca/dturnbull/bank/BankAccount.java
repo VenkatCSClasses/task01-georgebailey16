@@ -12,7 +12,7 @@ public class BankAccount {
         if (isEmailValid(email)){
             this.email = email;
             this.balance = startingBalance;
-            
+
             if(!isAmountValid(startingBalance)){
                 throw new IllegalArgumentException("Starting balance: " + startingBalance + " is invalid, cannot create account");
             }
@@ -66,6 +66,16 @@ public class BankAccount {
             throw new InsufficientFundsException("Not enough money");
         }
     }
+
+    /**
+     * @post increases the balance by amount if amount is non-negative and valid
+     */
+    public void deposit (double amount) throws InsufficientFundsException{
+        ;
+    }
+
+    
+    
 
     public static boolean isEmailValid(String email){
         String specChars = "!#$%^&*() ";

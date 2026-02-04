@@ -63,12 +63,41 @@ class BankAccountTest {
         assertThrows(IllegalArgumentException.class, () -> bankAccount.withdraw(-0.01)); //class: negative withdraw -- below lower boundary
         
         BankAccount bankAccount4 = new BankAccount("g@h.com", 100);
-        assertThrows(IllegalArgumentException.class, () -> bankAccount4.withdraw(0.0000000000000001)); //class: invalid small withdraw -- lower invalid boundary
+        assertThrows(IllegalArgumentException.class, () -> bankAccount4.withdraw(0.0000001)); //class: invalid small withdraw -- lower invalid boundary
         assertThrows(IllegalArgumentException.class, () -> bankAccount4.withdraw(0.001)); //class: invalid small withdraw -- upper invalid boundary
         assertThrows(IllegalArgumentException.class, () -> bankAccount4.withdraw(0)); //class: non-negative invalid withdraw -- lower invalid boundary
         // 0 throws an error so meaningless withdraws can't clog up withdrawal logs
         assertThrows(InsufficientFundsException.class, () -> bankAccount4.withdraw(100.01)); //class: non-negative invalid withdraw -- upper invalid boundary
+    }
 
+    @Test
+    void depositTest() throws InsufficientFundsException{
+        BankAccount bankAccount = new BankAccount("a@b.com", 200);
+        bankAccount.deposit(100);
+        assertEquals(300, bankAccount.getBalance(), 0.001); //class: valid deposit
+       
+        BankAccount bankAccount2 = new BankAccount("c@d.com", 200);
+        bankAccount2.deposit(0.01);
+        assertEquals(200.01, bankAccount2.getBalance(), 0.001); //class: valid decimal -- lower boundary deposit
+        bankAccount2.deposit(0.1);
+        assertEquals(200.11, bankAccount2.getBalance(), 0.001); //class: valid decimal -- middle deposit
+        bankAccount2.deposit(1);
+        assertEquals(201.11, bankAccount2.getBalance(), 0.001); //class: valid decimal -- upper boundary deposit
+        
+        BankAccount bankAccount3 = new BankAccount("e@f.com", 200);
+        bankAccount3.deposit(199.99);
+        assertEquals(399.99, bankAccount3.getBalance(), 0.001); //class: upper boundary deposit
+        bankAccount3.deposit(1000.01);
+        assertEquals(1400, bankAccount3.getBalance(), 0.001); //class: large deposit
+
+
+        BankAccount bankAccount4 = new BankAccount("g@h.com", 100);
+        assertThrows(IllegalArgumentException.class, () -> bankAccount4.deposit(-0.01)); //class: negative deposit -- below lower boundary
+        assertThrows(IllegalArgumentException.class, () -> bankAccount4.deposit(-50)); //class: negative deposit -- middle
+        assertThrows(IllegalArgumentException.class, () -> bankAccount4.deposit(-100)); //class: negative deposit -- above upper boundary
+        assertThrows(IllegalArgumentException.class, () -> bankAccount4.deposit(0.00000001)); //class: invalid small deposit -- lower invalid boundary
+        assertThrows(IllegalArgumentException.class, () -> bankAccount4.deposit(0.001)); //class: invalid small deposit -- upper invalid boundary
+        assertThrows(IllegalArgumentException.class, () -> bankAccount4.deposit(0)); //class: non-negative invalid deposit -- lower invalid boundary
     }
 
     @Test
